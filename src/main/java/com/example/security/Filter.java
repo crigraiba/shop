@@ -1,7 +1,6 @@
-package com.example.configuration;
+package com.example.security;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,41 +9,40 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
+@Component
 public class Filter extends OncePerRequestFilter {
 	
 	private final String
 		HEADER = "Authorization",
-		PREFIX = "Bearer ",
-		SECRET = "mySecretKey";
+		PREFIX = "Bearer ";
+	
+	@Value("${secret}")
+	private String secret;
 	
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) 
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) 
 		throws ServletException, IOException {
-		//try {
-			if (this.isTokenValid(request, response)) {
-				Claims claims = this.getClaims(request);
-				
-				if (claims.get("authorities") != null)
-					this.setUpSpringAuthentication(claims);
-				else
-					SecurityContextHolder.clearContext();
-			} else
+		if (this.isTokenValid(request, response)) {
+			Claims claims = this.getClaims(request);
+			
+			if (claims.get("authorities") != null)
+				this.setUpSpringAuthentication(claims);
+			else
 				SecurityContextHolder.clearContext();
-			
-			chain.doFilter(request, response);
-		/*} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException e) {
-			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-			
-			((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
-		}*/
+		} else
+			SecurityContextHolder.clearContext();
+		
+		filterChain.doFilter(request, response);
 	}
 	
 	private boolean isTokenValid(HttpServletRequest request, HttpServletResponse response) {
@@ -59,18 +57,12 @@ public class Filter extends OncePerRequestFilter {
 	private Claims getClaims(HttpServletRequest request) {
 		String token = request.getHeader(HEADER).replace(PREFIX, "");
 		
-		return Jwts
-			.parser()
-			.setSigningKey(SECRET.getBytes())
-			.parseClaimsJws(token)
-			.getBody();
+		return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token).getBody();
 	}
 	
 	private void setUpSpringAuthentication(Claims claims) {
-		List<String> authorities = Arrays.asList(claims
-			.get("authorities")
-			.toString()
-			.split(","));
+		@SuppressWarnings("unchecked")
+		List<String> authorities = (List<String>) claims.get("authorities");
 		
 		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
 			claims

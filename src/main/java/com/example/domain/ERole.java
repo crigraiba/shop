@@ -1,6 +1,6 @@
 package com.example.domain;
 
-public enum Role {
+public enum ERole {
 	
 	ADMIN, DEFAULT
 	
