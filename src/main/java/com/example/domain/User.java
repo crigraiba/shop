@@ -9,7 +9,12 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Document(collection = "users")
+@Setter
+@Getter
 public class User {
 	
 	@MongoId
@@ -26,38 +31,6 @@ public class User {
 	
 	public User() {
 		id = UUID.randomUUID();
-	}
-	
-	public void setId(UUID id) {
-		this.id = id;
-	}
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	public void setRole(ERole role) {
-		this.role = role;
-	}
-	
-	public UUID getId() {
-		return id;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-	
-	public String getPassword() {
-		return password;
-	}
-	
-	public ERole getRole() {
-		return role;
 	}
 	
 }

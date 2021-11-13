@@ -22,9 +22,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.csrf().disable()
-			.addFilterAfter(filter, UsernamePasswordAuthenticationFilter.class)
-			.authorizeRequests()
-				.anyRequest().authenticated();
+			.addFilterAfter(filter, UsernamePasswordAuthenticationFilter.class);
 	}
 	
 }

@@ -8,7 +8,12 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Document(collection = "products")
+@Setter
+@Getter
 public class Product {
 	
 	@MongoId
@@ -22,30 +27,6 @@ public class Product {
 	
 	public Product() {
 		id = UUID.randomUUID();
-	}
-	
-	public void setId(UUID id) {
-		this.id = id;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public void setPrice(double price) {
-		this.price = price;
-	}
-	
-	public UUID getId() {
-		return id;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public double getPrice() {
-		return price;
 	}
 	
 }

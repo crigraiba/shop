@@ -18,7 +18,7 @@ public class GlobalRestControllerAdvice {
 	
 	@ExceptionHandler(Exception.class)
 	public ExceptionMessage handleException(Exception e) {
-		return new ExceptionMessage(LocalDateTime.now(), e.getClass() + ", message: " + e.getMessage() + ", toString: " + e.toString());
+		return new ExceptionMessage(LocalDateTime.now(), e.getClass() + ", message: " + e.getMessage());
 	}
 	
 }

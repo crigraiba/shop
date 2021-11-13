@@ -9,7 +9,12 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Document(collection = "receipts")
+@Setter
+@Getter
 public class Receipt {
 	
 	@MongoId
@@ -21,22 +26,6 @@ public class Receipt {
 	
 	public Receipt() {
 		id = UUID.randomUUID();
-	}
-	
-	public void setId(UUID id) {
-		this.id = id;
-	}
-	
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
-	
-	public UUID getId() {
-		return id;
-	}
-	
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
 	}
 	
 }
