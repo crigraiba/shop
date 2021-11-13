@@ -30,7 +30,7 @@ public class Filter extends OncePerRequestFilter {
 	private String secret;
 	
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) 
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 		throws ServletException, IOException {
 		if (this.isTokenValid(request, response)) {
 			Claims claims = this.getClaims(request);

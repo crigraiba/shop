@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,36 +26,49 @@ public class UserRestController {
 	
 	@Autowired
 	private UserService service;
-
+	
 	@GetMapping
+	@PreAuthorize("hasAnyRole('EMPLOYEE', 'ADMIN')")
 	public List<User> read() {
 		return service.read();
 	}
-
+	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasAnyRole('EMPLOYEE', 'ADMIN')")
 	public User readById(@PathVariable UUID id) {
 		return service.readById(id);
 	}
 	
-	@PostMapping("/default")
+	@PostMapping("/client")
 	@ResponseStatus(HttpStatus.CREATED)
-	public User createDefault(@RequestBody User user) {
-		return service.create(user, ERole.DEFAULT);
+	@PreAuthorize("permitAll()")
+	public User createClient(@RequestBody User user) {
+		return service.create(user, ERole.CLIENT);
+	}
+	
+	@PostMapping("/employee")
+	@ResponseStatus(HttpStatus.CREATED)
+	@PreAuthorize("hasRole('ADMIN')")
+	public User createEmployee(@RequestBody User user) {
+		return service.create(user, ERole.EMPLOYEE);
 	}
 	
 	@PostMapping("/admin")
 	@ResponseStatus(HttpStatus.CREATED)
+	@PreAuthorize("hasRole('ADMIN')")
 	public User createAdmin(@RequestBody User user) {
 		return service.create(user, ERole.ADMIN);
 	}
 	
 	@PutMapping
+	@PreAuthorize("hasRole('ADMIN')")
 	public User update(@RequestBody User user) {
 		return service.update(user);
 	}
 	
 	@DeleteMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@PreAuthorize("hasRole('ADMIN')")
 	public void delete(@RequestBody User user) {
 		service.delete(user);
 	}

@@ -19,7 +19,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class TokenService {
-
+	
 	@Autowired
 	private UserService service;
 	
@@ -35,7 +35,7 @@ public class TokenService {
 		
 		return this.generateToken(username, authorities);
 	}
-		
+	
 	private User authenticate(String username, String password) {
 		return service.readByEmailAndPassword(username, password);
 	}
