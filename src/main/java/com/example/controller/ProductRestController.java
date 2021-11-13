@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.Product;
-import com.example.service.ProductService;
+import com.example.service.impl.ProductServiceImpl;
 
 @RestController
 @RequestMapping("/products")
 public class ProductRestController {
 	
 	@Autowired
-	private ProductService service;
+	private ProductServiceImpl service;
 	
 	@GetMapping
 	@PreAuthorize("permitAll()")

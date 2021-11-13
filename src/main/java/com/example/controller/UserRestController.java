@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.ERole;
 import com.example.domain.User;
-import com.example.service.UserService;
+import com.example.service.impl.UserServiceImpl;
 
 @RestController
 @RequestMapping("/users")
 public class UserRestController {
 	
 	@Autowired
-	private UserService service;
+	private UserServiceImpl service;
 	
 	@GetMapping
 	@PreAuthorize("hasAnyRole('EMPLOYEE', 'ADMIN')")

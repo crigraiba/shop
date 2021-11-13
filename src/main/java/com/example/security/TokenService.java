@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.domain.ERole;
 import com.example.domain.User;
-import com.example.service.UserService;
+import com.example.service.impl.UserServiceImpl;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -21,7 +21,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class TokenService {
 	
 	@Autowired
-	private UserService service;
+	private UserServiceImpl service;
 	
 	@Value("${secret}")
 	private String secret;

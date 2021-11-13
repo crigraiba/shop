@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.Address;
-import com.example.service.AddressService;
+import com.example.service.impl.AddressServiceImpl;
 
 @RestController
 @RequestMapping("/addresses")
 public class AddressRestController {
 	
 	@Autowired
-	private AddressService service;
+	private AddressServiceImpl service;
 	
 	@GetMapping
 	@PreAuthorize("hasAnyRole('EMPLOYEE', 'ADMIN')")

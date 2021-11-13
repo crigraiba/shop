@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.ReceiptDetails;
-import com.example.service.ReceiptDetailsService;
+import com.example.service.impl.ReceiptDetailsServiceImpl;
 
 @RestController
 @RequestMapping("/receipt-details")
 public class ReceiptDetailsRestController {
 	
 	@Autowired
-	private ReceiptDetailsService service;
+	private ReceiptDetailsServiceImpl service;
 	
 	@GetMapping
 	@PreAuthorize("hasAnyRole('EMPLOYEE', 'ADMIN')")
